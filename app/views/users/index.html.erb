@@ -1,0 +1,10 @@
+<h1>All Users</h1>
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <%= link_to user.twitterhandle, user_path(user.twitterhandle) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "New User", new_user_path, class:'btn btn-primary' %>

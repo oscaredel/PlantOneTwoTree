@@ -1,0 +1,30 @@
+<h1><%= @user.twitterhandle %></h1>
+Amount: <%= @user.amount %>
+<br>
+Status: <%= @user.status %>
+<br>
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<button id="pay" class="btn btn-primary">Pay</button>
+<%= link_to icon('fas', 'edit'), edit_user_path(@user.twitterhandle), class:'btn btn-warning' %>
+
+<%= link_to icon('fas', 'trash') + "",
+                        user_path(@user),
+                        method: :delete,
+                        class:'btn btn-danger' %>
+<br>
+<%= link_to "Show all users", users_path, class:'btn btn-primary' %>
+<br>
+<!--
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  const paymentButton = document.getElementById('pay');
+  paymentButton.addEventListener('click', () => {
+    const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+    stripe.redirectToCheckout({
+      sessionId: '<%=  %>'
+    });
+  });
+</script>
+ -->
