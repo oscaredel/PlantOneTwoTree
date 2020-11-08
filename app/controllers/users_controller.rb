@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    TWITTER_REST_CLIENT.update("I'm tweeting with @gem!")
 
     if @user.save
       redirect_to user_path(@user.twitterhandle)
