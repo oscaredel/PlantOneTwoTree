@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(twitterhandle: params[:twitterhandle])
+    create_checkout_session unless @user.status == 'complete'
   end
 
   def new
@@ -54,5 +55,30 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:twitterhandle, :amount)
+  end
+
+  def create_checkout_session
+    @session = Stripe::Checkout::Session.create({
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Plant trees',
+          },
+          unit_amount: 300,
+        },
+        quantity: 1,
+      }],
+      mode: 'payment',
+      # For now leave these URLs as placeholder values.
+      #
+      # Later on in the guide, you'll create a real success page, but no need to
+      # do it yet.
+      success_url: complete_user_url(@user.twitterhandle),
+      cancel_url: 'https://example.com/cancel',
+    })
+
+    { id: session.id }.to_json
   end
 end
