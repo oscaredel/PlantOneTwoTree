@@ -12,11 +12,21 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def create
-    @user = User.new(user_params)
-    TWITTER_REST_CLIENT.update("I'm tweeting with @gem!")
+  def self.create_from_webhook(twitterhandle, tweet_author, status_id)
+    @user = User.new(twitterhandle: twitterhandle)
 
     if @user.save
+      TWITTER_REST_CLIENT.update("Hey @#{@user.twitterhandle}! @#{tweet_author} dares you to plant some trees. Are you in? Do it here: PlantOneTwoTree.Org/#{@user.twitterhandle}", in_reply_to_status_id: status_id)
+    end
+  end
+
+  def create
+    @user = User.new(user_params)
+
+    if @user.save
+
+      # TWITTER_REST_CLIENT.update("I'm tweeting with @gem!")
+      p user_url(@user.twitterhandle)
       redirect_to user_path(@user.twitterhandle)
     else
       render 'new'
