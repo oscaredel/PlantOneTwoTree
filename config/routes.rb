@@ -11,4 +11,8 @@ Rails.application.routes.draw do
   delete '/users/:id', to: 'users#destroy'
 
   get '/users/:twitterhandle/complete', to: 'users#complete', as: 'complete_user'
+
+  # Twitter Webhook routes for Account Activity API
+  get '/webhook/twitter', to: 'webhook#confirm_crc'
+  post '/webhook/twitter', to: 'webhook#filter_events'
 end

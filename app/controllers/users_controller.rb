@@ -28,6 +28,8 @@ class UsersController < ApplicationController
     @user.status = "complete"
     @user.save
 
+    TWITTER_REST_CLIENT.update("Hey @#{@user.twitterhandle}, You planted #{@user.amount} trees! Awesome!")
+
     redirect_to user_path(@user.twitterhandle)
   end
 
@@ -77,7 +79,7 @@ class UsersController < ApplicationController
       # Later on in the guide, you'll create a real success page, but no need to
       # do it yet.
       success_url: complete_user_url(@user.twitterhandle),
-      cancel_url: 'https://example.com/cancel',
+      cancel_url: user_url(@user.twitterhandle),
     })
 
     { id: session.id }.to_json

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BotControllerTest < ActionDispatch::IntegrationTest
+class WebhookControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
