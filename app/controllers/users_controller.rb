@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     @user.status = "complete"
     @user.save
 
-    TWITTER_REST_CLIENT.update("Hey @#{@user.twitterhandle}, You planted #{@user.amount} trees! Awesome!")
+    TWITTER_REST_CLIENT.update("Hey @#{@user.twitterhandle}, You planted #{@user.amount} trees! 🌟Awesome! Let's plant a forrest 🌳🌲🌳")
 
     redirect_to user_path(@user.twitterhandle)
   end
