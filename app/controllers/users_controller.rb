@@ -13,10 +13,14 @@ class UsersController < ApplicationController
   end
 
   def self.create_from_webhook(twitterhandle, tweet_author, status_id)
-    @user = User.new(twitterhandle: twitterhandle)
+    @user = User.new(twitterhandle: twitterhandle, amount: 3)
 
     if @user.save
-      TWITTER_REST_CLIENT.update("Hey @#{@user.twitterhandle}! @#{tweet_author} dares you to plant some trees. Are you in? Do it here: PlantOneTwoTree.Org/#{@user.twitterhandle}", in_reply_to_status_id: status_id)
+      request_tweet = TWITTER_REST_CLIENT.update("Hey @#{@user.twitterhandle}! @#{tweet_author} dares you to plant some trees. 🌳🌲
+      Are you in? Do it here: PlantOneTwoTree.Org/#{@user.twitterhandle}", in_reply_to_status_id: status_id)
+      # Save this tweets id
+      @user.requesttweet = request_tweet.id
+      @user.save
     end
   end
 
@@ -26,7 +30,7 @@ class UsersController < ApplicationController
     if @user.save
 
       # TWITTER_REST_CLIENT.update("I'm tweeting with @gem!")
-      p user_url(@user.twitterhandle)
+      user_url(@user.twitterhandle)
       redirect_to user_path(@user.twitterhandle)
     else
       render 'new'
@@ -38,7 +42,8 @@ class UsersController < ApplicationController
     @user.status = "complete"
     @user.save
 
-    TWITTER_REST_CLIENT.update("Hey @#{@user.twitterhandle}, You planted #{@user.amount} trees! 🌟Awesome! Let's plant a forest 🌳🌲🌳")
+    TWITTER_REST_CLIENT.update("You did it @#{@user.twitterhandle}! 🤩 You donated to plant #{@user.amount} trees! 🌟Awesome!
+    Spread the word, let's plant a forrest together! 🌳🌲🌳", in_reply_to_status_id: @user.requesttweet)
 
     redirect_to user_path(@user.twitterhandle)
   end
@@ -79,7 +84,7 @@ class UsersController < ApplicationController
           product_data: {
             name: 'Plant trees',
           },
-          unit_amount: 300,
+          unit_amount: 100 * @user.amount,
         },
         quantity: 1,
       }],
