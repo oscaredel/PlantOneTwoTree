@@ -40,10 +40,10 @@ class UsersController < ApplicationController
   def complete
     @user = User.find_by(twitterhandle: params[:twitterhandle])
     @user.status = "complete"
-    @user.save
 
-    TWITTER_REST_CLIENT.update("You did it @#{@user.twitterhandle}! 🤩 You donated to plant #{@user.amount} trees! 🌟Awesome!
-    Spread the word, let's plant a forrest together! 🌳🌲🌳", in_reply_to_status_id: @user.requesttweet)
+    complete_tweet = TWITTER_REST_CLIENT.update("You did it @#{@user.twitterhandle}! 🤩 You donated to plant #{@user.amount} trees! 🌟Awesome! Spread the word, let's plant a forest together! 🌳🌲🌳", in_reply_to_status_id: @user.requesttweet)
+    @user.completetweet = complete_tweet.id
+    @user.save
 
     redirect_to user_path(@user.twitterhandle)
   end
@@ -56,7 +56,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update(user_params)
-      redirect_to user_path(@user.twitterhandle)
     else
       render 'new'
     end

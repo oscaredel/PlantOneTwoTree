@@ -1,19 +1,79 @@
-<h1><%= @user.twitterhandle %></h1>
-<p>Amount: <%= @user.amount %></p>
-<p>Status: <%= @user.status %></p>
+<div class="row">
+  <div class="col text-center m-4">
+    <h1>Plant One Two Tree</h1>
+    <h5>1💲 = 1🌳</h5>
+  </div>
+</div>
 
-<% unless @user.status == 'complete' %>
-  <button id="pay" class="btn btn-primary">Pay</button>
-  <%= link_to icon('fas', 'edit'), edit_user_path(@user.twitterhandle), class:'btn btn-warning' %>
+<div class="row justify-content-center">
+  <div class="col-md-6 m-3 pt-3 text-center rounded-lg bg-white">
+    <h3>👋 Hi <%= link_to "@" + @user.twitterhandle, "https://www.twitter.com/#{@user.twitterhandle}" %> </h3>
+
+
+<% if @user.status != 'complete' %>
+
+  <p>Are you willing to add some health and beauty to our planet by planting some trees?</p>
+  </div>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6 m-3 p-3 text-center rounded-lg bg-white">
+      <%= simple_form_for @user do |f| %>
+        <%= f.input :amount %>
+        <%= f.button :submit, "Donate", class:'btn btn-primary', id:'pay' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8 m-3">
+      <div>
+        <blockquote class="twitter-tweet" data-align="center" data-dtn="false" data-width="550">
+          <a href="https://twitter.com/PlantOneTwoTree/status/<%= @user.requesttweet %>"></a>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+<% elsif @user.status = 'complete' %>
+
+  <p>You're the best! 🤩</p>
+  </div>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-md-6 m-3">
+      <div>
+        <blockquote class="twitter-tweet" data-align="center" data-dtn="false" data-width="550" data-conversation="none">
+          <a href="https://twitter.com/PlantOneTwoTree/status/<%= @user.completetweet %>"></a>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
 <% end %>
 
-<%= link_to icon('fas', 'trash') + "",
-                        user_path(@user),
-                        method: :delete,
-                        class:'btn btn-danger' %>
-<br>
-<%= link_to "Show all users", users_path, class:'btn btn-primary' %>
-<br>
+<div class="row justify-content-center">
+  <div class="col-md-6 m-3 p-3 rounded-lg bg-white">
+    <p>All donations will be forwarded to the <a href="https://www.arborday.org">Arbor Day Foundation</a>, which plants forests all over the world.</p>
+    <p>They've already planted over 250 million trees 🤩 in the last 50 years.</p>
+    <p>Checkout our <a href="https://twitter.com/PlantOneTwoTree">timeline</a> for updates on the amount raised!</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col text-center">
+    <%= link_to icon('fas', 'trash') + "",
+                            user_path(@user),
+                            method: :delete,
+                            class:'btn btn-danger' %>
+    <br>
+    <br>
+    <%= link_to "Show all users", users_path, class:'btn btn-primary' %>
+  </div>
+</div>
+
+
+
+
 
 <% unless @user.status == 'complete' %>
   <script src="https://js.stripe.com/v3/"></script>

@@ -6,7 +6,13 @@
 // General style
 $font-family-sans-serif:  $body-font;
 $headings-font-family:    $headers-font;
-$body-bg:                 $light-gray;
+$body-bg:                 none;
+html {
+  background: url("https://images.unsplash.com/photo-1499403030326-90733b91b392?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80") no-repeat center 35% fixed;
+  /* Center and scale the image nicely */
+  background-size: cover;
+}
+
 $font-size-base: 1rem;
 
 // Colors
@@ -18,8 +24,8 @@ $danger:     $red;
 $warning:    $orange;
 
 // Buttons & inputs' radius
-$border-radius:    2px;
-$border-radius-lg: 2px;
+$border-radius:    8px;
+$border-radius-lg: 12px;
 $border-radius-sm: 2px;
 
 // Override other variables below!
